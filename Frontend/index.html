@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login.Register Form</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head> 
+<body>
+    <div class="container">
+        <div class="content">
+            <h2 class="logo"><i class='bx bxl-sass'></i>SignSense Lanka</h2>
+            
+            <div class="text-sci">
+                <h2>Welcome!<br><p>To Sinhala Sign Language Learning website.</p></h2>
+            </div>
+        </div>
+    
+    <div class="hero">
+        <div class="form-box">
+            <div class="button-box">
+                <div id="btn"></div>
+                
+                <button type="button" class="toggle-btn" onclick="login()">Log In </button>
+                <button type="button" class="toggle-btn" onclick="register()">
+                    Register
+                </button>
+            </div>
+            <div class="social-icons">
+                <i class="bx bxl-facebook-circle"></i>
+                <i class="bx bxl-instagram"> </i>
+                <i class="bx bxl-twitter"> </i>
+            </div>
+            <form id="login" class="input-group" action="login.php" method="POST">
+                <input type="text" name="name" class="input-field" placeholder="User Name" required>
+                <input type="text" name="password" class="input-field" placeholder="Enter Password" required>
+                <input type="checkbox" class="check-box">
+                <span> Remember Password</span>
+                <button type="submit" class="submit-btn">Log In</button>
+            </form>
+
+            <form id="register" class="input-group" action="register.php" method="POST">
+                <input type="text" name="name" class="input-field" placeholder="User Name" required>
+                <input type="email" name="email" class="input-field" placeholder="Email" required>
+                <input type="text" name="password" class="input-field" placeholder="Enter Password" required>
+                <select name="user_type">
+                    <option value="children">Children</option>
+                    <option value="parent">Parent</option>
+                </select><br>
+                <input type="checkbox" class="check-box">
+                <span>I agree to the <a href="#">Terms & Services</a></span>
+                <button type="submit" class="submit-btn">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Error Popup -->
+    <div id="error-popup" class="error-popup">
+        An account with this email address already exists. Please use a different user name and email address. 
+        <button onclick="closePopup()">OK</button>
+    </div>
+
+    <!-- Login error Popup for User Does Not Exist -->
+    <div id="error-popup-user" class="error-popup">
+        User does not exist. Please check and try again. &nbsp; &nbsp;
+        <button onclick="closePopup('error-popup-user')">OK</button>
+    </div>
+
+    <!-- Login error Popup for Invalid Password -->
+    <div id="error-popup-password" class="error-popup">
+        Invalid password. Please try again. &nbsp; &nbsp;
+        <button onclick="closePopup('error-popup-password')">OK</button>
+    </div>
+
+    
+    <script>
+        var log = document.getElementById("login")
+        var reg = document.getElementById("register")
+        var button = document.getElementById("btn")
+
+        function register(){
+            log.style.left = "400px";
+            reg.style.left = "50px"
+            button.style.left = "110px"
+        }
+
+        function login(){
+            log.style.left = "50px";
+            reg.style.left = "450px"
+            button.style.left = "0"
+        }
+
+        // Function to close the popup
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+            // Remove error query parameter from URL without reloading the page
+            const url = new URL(window.location.href);
+            url.searchParams.delete('error');
+            history.replaceState({}, document.title, url.href);
+        }
+
+        // Check if there's an error parameter in the URL-register
+        const urlParams = new URLSearchParams(window.location.search);
+        /*if (urlParams.get('error') === 'exists') {
+            errorPopup.style.display = "block";*/
+        const errorType = urlParams.get('error');
+
+        if (errorType === 'exists') {
+            document.getElementById('error-popup').style.display = 'block';
+        } else if (errorType === 'user_not_found') {
+            document.getElementById('error-popup-user').style.display = 'block';
+        } else if (errorType === 'invalid_password') {
+            document.getElementById('error-popup-password').style.display = 'block';
+        }
+        
+    </script>
+</body>
+</html>
