@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hand Sign Recognition</title>
+    <link rel="stylesheet" href="../static/Prediction/style_predict.css"> 
+    <link rel="stylesheet" href="https://unpkg.com/boxicons/css/boxicons.min.css">
+</head>
+<body>
+    <!--Nav bar-->
+    <div class="fixed-bar">
+        <div class="logo"><i class='bx bxl-sass'></i>SignSense Lanka</div> 
+        <div class="navbar">
+            <div class="nav-item welcome-text">Practice makes perfect – let's get started! </div>
+            <div class="nav-item">
+                <a href="/logout" class="nav-item logout-btn">Logout</a>
+            </div>
+        </div>
+    </div>
+    <div class="container-predictive">
+        <div class="left-column">
+            <!-- Image Slider -->
+            <div class="slider">
+                <div class="slide">
+                    <!-- Add your 20 images here -->
+                    <div class="item"><img src="../static/Prediction/images/1.jpg" alt="Image 1"></div>
+                    <div class="item"><img src="../static/Prediction/images/2.jpg" alt="Image 1"></div>
+                    <div class="item"><img src="../static/Prediction/images/backimage.jpg" alt="Image 2"></div>
+                    <div class="item"><img src="../static/Prediction/images/thanks.jpg" alt="Image 3"></div>
+                    <!-- Repeat for remaining images -->
+                    <div class="item"><img src="../static/Prediction/images/backimage.jpg" alt="Image 20"></div>
+                </div>    
+            </div>
+            <div class="button-slide">
+                    <button class="prev"><i class="fa-solid fa-arrow-left"></i>Prev</button>
+                    <button class="next"><i class="fa-solid fa-arrow-right"></i>Next</button>
+                </div>    
+        </div>
+        <script src="../static/Prediction/app.js"></script>
+
+        <div class="right-column">
+            <img src="{{ url_for('video_feed') }}" id="video_feed" />
+            <div id="prediction">Prediction</div>
+            <button onclick="startPrediction()">Start</button>
+            <!--<button onclick="pausePrediction()">Pause</button>-->
+        </div>
+    </div>
+    <script>
+        let interval;
+
+        function updatePrediction() {
+            fetch("/predict", {
+                method: "POST",
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("prediction").innerText = data.prediction;
+            });
+        }
+
+        function startPrediction() {
+            interval = setInterval(updatePrediction, 1000);
+        }
+
+        function pausePrediction() {
+            clearInterval(interval);
+        }
+        
+    </script>
+</body>
+</html>

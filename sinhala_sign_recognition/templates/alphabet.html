@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alphabet</title>
+    <link rel="stylesheet" href="./alphabet.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="heading">Sinhala Sign Language Alphabet</h1>
+
+        <div class="box-container">
+
+            <div class="box">
+                <img src="./image/backimage.jpg" alt="අ">
+                <p>Hi there! You can learn the Sinhala signs shown above with our learning system.</p>
+                <!--<a href="../../sinhala_hand_sign_recognition-main/templates/index.html" class="btn">Start</a>-->
+                <a href="../../sinhala_handsign_recognition/templates/index.html" class="btn" onclick="startProcess()">Start</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        function startProcess() {
+            // Redirect to index.html
+            window.location.href = 'http://127.0.0.1:5000';
+        }
+    </script>
+</body>
+</html>
