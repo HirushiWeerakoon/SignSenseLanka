@@ -146,33 +146,43 @@ def register():
     password = request.form['password']
     user_type = request.form['user_type']
     
+    print(f"User Type: {user_type}")
+
     try:
         connection = get_db_connection()
         cursor = connection.cursor()
         
-        # Check if the user already exists
         cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
         if cursor.fetchone():
-            return redirect(url_for('index') + "?error=exists")
+            print("Email already exists, redirecting to /index")
+            return redirect("/index?error=exists")
 
-        # Insert new user
         password_hash = generate_password_hash(password)
         cursor.execute(
             "INSERT INTO users (name, email, password, user_type) VALUES (%s, %s, %s, %s)",
             (username, email, password_hash, user_type)
         )
         connection.commit()
+        print("User registered successfully")
 
-        # Redirect based on user type
+        # Set session after successful registration
+        session['logged_in'] = True
+        session['user_id'] = cursor.lastrowid  # Set user_id to newly registered user
+        session['user_type'] = user_type
+
         if user_type == 'Children':
-            return redirect(url_for('child_home'))
+            print("Redirecting to /child-home")
+            return redirect("/child-home")
         elif user_type == 'Parent':
-            return redirect(url_for('parent_home'))
+            print("Redirecting to /parent-home")
+            return redirect("/parent-home")
         else:
-            return redirect(url_for('index'))
+            print("Redirecting to /index")
+            return redirect("/index")
 
-    except mysql.connector.Error:
-        return redirect(url_for('index') + "?error=register")
+    except mysql.connector.Error as e:
+        print(f"Database error: {e}")
+        return redirect("/index?error=register")
 
     finally:
         if cursor:
@@ -239,3 +249,4 @@ def logout():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
