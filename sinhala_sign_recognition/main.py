@@ -204,13 +204,28 @@ def child_home():
     return render_template("child-home.html")
 
 
-# Main menu page
-@app.route("/main_menu")
+@app.route("/main_menu", methods=["GET", "POST"])
 def main_menu():
     if not session.get("logged_in"):
-        return redirect("login")
+        return redirect(url_for('login'))
+    
+    user_type = session.get('user_type')
+
+    # If the "Start" button is clicked, redirect based on user type
+    if request.method == "POST":
+        if user_type == "Parent":
+            return redirect(url_for('prediction_page'))
+        elif user_type == "Children":
+            return redirect(url_for('prediction_childpage'))
+
     return render_template("main_menu.html")
 
+
+@app.route("/prediction_childpage")
+def prediction_childpage():
+    if not session.get("logged_in"):
+        return redirect(url_for('login'))
+    return render_template("prediction_childpage.html")
 
 # Prediction page
 @app.route("/prediction_page")
