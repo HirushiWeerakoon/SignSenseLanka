@@ -48,10 +48,10 @@ sinhala_letters = {
     13: 'ඉ',
     14: 'ඊ',
     15: 'උ',
-    16: 'ග',
-    17: 'ය',
-    18: 'ල',
-    19: 'හ'
+    16: 'ග්',
+    17: 'ය්',
+    18: 'ල්',
+    19: 'හ්'
 }
 
 def preprocess_landmarks(landmarks):
@@ -69,6 +69,10 @@ def generate_frames():
         else:
             image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             results = hands.process(image)
+
+            if not results.multi_hand_landmarks:
+                prediction = None  # Clear the prediction
+                
             if results.multi_hand_landmarks:
                 for hand_landmarks in results.multi_hand_landmarks:
                     mp.solutions.drawing_utils.draw_landmarks(
@@ -77,7 +81,8 @@ def generate_frames():
                     landmarks = [[lm.x, lm.y, lm.z] for lm in hand_landmarks.landmark]
                     landmarks = preprocess_landmarks(landmarks)
                     prediction = model.predict(landmarks)
-            ret, buffer = cv2.imencode(".jpg", frame)
+            display_frame = cv2.flip(frame, 1)
+            ret, buffer = cv2.imencode(".jpg", display_frame)
             frame = buffer.tobytes()
             yield (b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n")
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hand Sign Recognition</title>
-    <link rel="stylesheet" href="../static/Prediction/style_predict.css"> 
+    <link rel="stylesheet" href="../static/Prediction/style_predict_child.css"> 
     <link rel="stylesheet" href="https://unpkg.com/boxicons/css/boxicons.min.css">
 </head>
 <body>
@@ -19,13 +19,85 @@
         </div>
     </div>
     <div class="container-predictive">
-        <div class="left-column">
+        <div class="right-column">
             <img src="{{ url_for('video_feed') }}" id="video_feed" />
         </div>
         <div class="right-column">
             <div id="prediction">Prediction</div>
             <button onclick="startPrediction()">Start</button>
             <button onclick="pausePrediction()">Pause</button>
+        </div>
+
+        <!-- Matching Games Section -->
+        <div class="matching-games-section">
+            <div class="matching-game-container">
+                <h2>Sign Language Matching Game 1</h2>
+                <p>Select the correct letter for the shown sign.</p>
+                <div class="sign-images">
+                    <img id="sign1-1" src="../static/Prediction/imagesgame/11.png" alt="අ">
+                    <!--<img id="sign1-2" src="../static/Prediction/imagesgame/12.png" alt="ආ">
+                    <img id="sign1-3" src="../static/Prediction/imagesgame/13.png" alt="ඇ">-->
+                </div>
+                <div class="buttons">
+                    <button onclick="checkAnswer('ඉ', 'result1')">ඉ</button>
+                    <button onclick="checkAnswer('අ', 'result1')">අ</button>
+                    <button onclick="checkAnswer('උ', 'result1')">උ</button>
+                </div>
+                <div id="result1" class="result"></div>
+            </div>
+
+            <!-- Matching Game 2 -->
+            <div class="matching-game-container">
+                <h2>Sign Language Matching Game 2</h2>
+                <p>Select the correct sign for the shown number.</p>
+                <div class="sign-images">
+                    <img id="sign2-2" src="../static/Prediction/imagesgame/4.png" alt="4">
+                    <!--<img id="sign2-3" src="../static/Prediction/imagesgame/6.png" alt="6">
+                    <img id="sign2-1" src="../static/Prediction/imagesgame/2.png" alt="2">-->
+                </div>
+                <!-- Matching Buttons -->
+                <div class="buttons">
+                    <button onclick="checkAnswer('8', 'result2')">8</button>
+                    <button onclick="checkAnswer('4', 'result2')">4</button>
+                    <button onclick="checkAnswer('2', 'result2')">2</button>
+                </div>
+                <!-- Result display -->
+                <div id="result2" class="result"></div>
+            </div>
+
+            <!-- Matching Game 3 -->
+            <div class="matching-game-container">
+                <h2>Sign Language Matching Game 3</h2>
+                <p>Select the correct sign for the shown letter.</p>
+                <div class="sign-text">
+                    <span class="sign-text-large">ඊ</span>
+                </div>
+                <!-- Matching Options -->
+                <div class="matching-options">
+                    <img src="../static/Prediction/imagesgame/17.png" alt="Option 1" onclick="checkAnswer('ග් ', 'result3')">
+                    <img src="../static/Prediction/imagesgame/19.png" alt="Option 3" onclick="checkAnswer('ල්', 'result3')">
+                    <img src="../static/Prediction/imagesgame/15.png" alt="Option 2" onclick="checkAnswer('ඊ', 'result3')">
+                </div>
+                <!-- Result display -->
+                <div id="result3" class="result"></div>
+            </div>
+
+            <!-- Matching Game 4 -->
+            <div class="matching-game-container">
+                <h2>Sign Language Matching Game 4</h2>
+                <p>Select the correct sign for the shown number.</p>
+                <div class="sign-text">
+                    <span class="sign-text-large">10</span>
+                </div>
+                <!-- Matching Options -->
+                <div class="matching-options">
+                    <img src="../static/Prediction/imagesgame/10.png" alt="Option 1" onclick="checkAnswer('10', 'result4')">
+                    <img src="../static/Prediction/imagesgame/1.png" alt="Option 2" onclick="checkAnswer('1', 'result4')">
+                    <img src="../static/Prediction/imagesgame/5.png" alt="Option 3" onclick="checkAnswer('5', 'result4')">
+                </div>
+                <!-- Result display -->
+                <div id="result4" class="result"></div>
+            </div>
         </div>
     </div>
 
@@ -49,7 +121,24 @@
         function pausePrediction() {
             clearInterval(interval);
         }
-        
+
+        // Matching Game Logic
+        function checkAnswer(selectedAnswer, resultId) {
+            const correctAnswers = {
+                result1: 'අ',
+                result2: '4',
+                result3: 'ඊ',
+                result4: '10'
+            };
+            const resultElement = document.getElementById(resultId);
+            if (selectedAnswer === correctAnswers[resultId]) {
+                resultElement.innerText = "Correct! Well done!";
+                resultElement.style.color = "green";
+            } else {
+                resultElement.innerText = "Try again!";
+                resultElement.style.color = "red";
+            }
+        }
     </script>
 </body>
 </html>
