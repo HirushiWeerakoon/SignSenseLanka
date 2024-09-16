@@ -61,6 +61,7 @@ body{
     background-size: cover;
     display: inline-block;
     transition: 0.5s;
+    border: 5px solid rgb(0, 68, 128); /* Optional: Add a border */
 }
 
 .slide .item:nth-child(1),
